@@ -1,0 +1,49 @@
+[
+    {
+        "name": "help",
+        "read": "[prefix]help",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "Sends a DM with a list of all of the commands"
+    },
+    {
+        "name": "channel help",
+        "read": "[prefix]channelhelp",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@admin",
+        "description": "Sends a list of all of the commands in the channel"
+    },
+    {
+        "name": "prefix",
+        "read": "[prefix]prefix",
+        "prefix": false,
+        "mention": true,
+        "permissions": "@everyone",
+        "description": "Send the current prefix"
+    },
+    {
+        "name": "prefix change",
+        "read": "[prefix]prefixChange",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@admin",
+        "description": "Changes the current prefix"
+    },
+    {
+        "name": "set admin role",
+        "read": "[prefix]setadminrole <Role Name>",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@admin",
+        "description": "Changes the admin role"
+    },
+    {
+        "name": "admin role",
+        "read": "[prefix]adminrole",
+        "prefix": true,
+        "permissions": "@everyone",
+        "description": "Checks what the admin role is"
+    }
+]

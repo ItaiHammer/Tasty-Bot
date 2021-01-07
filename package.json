@@ -1,0 +1,22 @@
+{
+  "name": "itai-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "fs": "0.0.1-security",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
