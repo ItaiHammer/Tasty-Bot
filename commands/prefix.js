@@ -7,8 +7,9 @@ function prefixCommand(msg) {
     const guildInfo = serverProperties.find(
         (item) => item.guildID === msg.guild.id
     );
+    const currentPrefix = guildInfo.prefix === '' ? 'BLANK' : guildInfo.prefix;
 
-    msg.reply(`the current prefix is \`${guildInfo.prefix}\``);
+    msg.reply(`the current prefix is \`${currentPrefix}\``);
 }
 
 function prefixChange(msg, query) {
@@ -19,13 +20,21 @@ function prefixChange(msg, query) {
         (item) => item.guildID === msg.guild.id
     );
 
-    guildInfo.prefix = query[1];
+    if (query[1] === 'BLANK') {
+        guildInfo.prefix = null;
+
+        msg.channel.send(
+            `:white_check_mark: **Done!** set \`BLANK\` as the new prefix`
+        );
+    } else {
+        guildInfo.prefix = query[1];
+
+        msg.channel.send(
+            `:white_check_mark: **Done!** set \`${guildInfo.prefix}\` as the new prefix`
+        );
+    }
 
     fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
-
-    msg.channel.send(
-        `:white_check_mark: **Done!** set \`${guildInfo.prefix}\` as the new prefix`
-    );
 }
 
-export { prefixCommand, prefixChange };
+export {prefixCommand, prefixChange};

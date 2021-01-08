@@ -3,13 +3,13 @@ import fs from 'fs';
 function help(msg, Discord, query, prefix) {
     const commands = JSON.parse(fs.readFileSync('./commands.json'));
 
-    if (query.length === 1) {
+    if (query.length === 1 || query.constructor() !== Array) {
         let help = new Discord.MessageEmbed().setTitle('List of Commands:');
 
         for (let i = 0; i < commands.length; i++) {
             help.addFields({
                 name: '.',
-                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
+                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
             });
         }
 
@@ -21,7 +21,7 @@ function help(msg, Discord, query, prefix) {
             if (commands[i].permissions === '@' + query[1]) {
                 help.addFields({
                     name: '.',
-                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
+                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
                 });
             }
         }
@@ -45,7 +45,7 @@ function channelHelp(msg, Discord, query, prefix) {
         for (let i = 0; i < commands.length; i++) {
             help.addFields({
                 name: '.',
-                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
+                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
             });
         }
 
@@ -57,7 +57,7 @@ function channelHelp(msg, Discord, query, prefix) {
             if (commands[i].permissions === '@' + query[1]) {
                 help.addFields({
                     name: '.',
-                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
+                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
                 });
             }
         }
@@ -70,4 +70,4 @@ function channelHelp(msg, Discord, query, prefix) {
     }
 }
 
-export { help, channelHelp };
+export {help, channelHelp};

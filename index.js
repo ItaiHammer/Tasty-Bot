@@ -9,7 +9,7 @@ import {
     prefixCommand,
     prefixChange,
     setAdminRole,
-    adminRole
+    adminRole,
 } from './commands.js';
 
 const token = 'Nzk2MjM5Njg3MDEwMDkxMDQ4.X_VB_g.1hfq0QZS48mGVhxCoY_GlinoDHo';
@@ -33,7 +33,7 @@ client.on('guildCreate', (guild) => {
         guildName: guild.name,
         guildID: guild.id,
         prefix: '!',
-        adminRole: adminRole
+        adminRole: adminRole,
     });
 
     fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
@@ -100,6 +100,8 @@ client.on('message', (msg) => {
             (item) => item.guildID === guild.id
         );
         const prefix = guildIndex.prefix;
+        const prefixLength =
+            prefix === null ? (prefix.length = 0) : prefix.length;
         const botMention = '<@!796239687010091048>';
 
         //*USER VARS
@@ -109,7 +111,12 @@ client.on('message', (msg) => {
                 : msg.member.nickname;
 
         //*MSG VARS
-        let query = msg.content.substr(1).split(' ');
+        let query = msg.content.includes(' ')
+            ? msg.content.substr(prefixLength).split(' ')
+            : msg.content;
+        let keyWord = msg.content.includes(' ') ? query[0] : msg.content;
+
+        console.log(query[1]);
 
         //if it has a mention
         if (msg.content.substr(0, botMention.length) === botMention) {
@@ -121,9 +128,13 @@ client.on('message', (msg) => {
         }
 
         //if it has the prefix
-        if (!msg.content.substr(0, prefix.length) === prefix) return;
+        if (
+            !prefix === null &&
+            !msg.content.substr(0, prefix.length) === prefix
+        )
+            return;
 
-        switch (query[0]) {
+        switch (keyWord) {
             case 'help':
                 help(msg, Discord, query, prefix);
                 break;
@@ -141,7 +152,7 @@ client.on('message', (msg) => {
         )
             return;
 
-        switch (query[0]) {
+        switch (keyWord) {
             case 'channelhelp':
                 channelHelp(msg, Discord, query, prefix);
                 break;
