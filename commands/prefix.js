@@ -20,8 +20,6 @@ function prefixChange(msg, query) {
         (item) => item.guildID === msg.guild.id
     );
 
-    console.log('in prefixchange');
-
     if (query[1] === 'BLANK') {
         guildInfo.prefix = 'BLANK';
 
