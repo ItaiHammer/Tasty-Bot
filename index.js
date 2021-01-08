@@ -17,10 +17,7 @@ import {
 const __dirname = path.resolve(path.dirname(''));
 dotenv.config();
 const token = process.env.TOKEN;
-<<<<<<< HEAD
 const isHeroku = process.env.NODE_ENV === 'production';
-=======
->>>>>>> 3e794463ad71a15bc1746319c234c6685d7735cf
 const client = new Discord.Client();
 
 client.on('guildCreate', (guild) => {
