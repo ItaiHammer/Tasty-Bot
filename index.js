@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import path from 'path';
 import fs from 'fs';
+import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 
 import {
@@ -12,7 +13,9 @@ import {
     adminRole
 } from './commands.js';
 
-const token = 'Nzk2MjM5Njg3MDEwMDkxMDQ4.X_VB_g.1hfq0QZS48mGVhxCoY_GlinoDHo';
+const __dirname = path.resolve(path.dirname(''));
+dotenv.config();
+const token = process.env.TOKEN;
 const client = new Discord.Client();
 
 client.on('guildCreate', (guild) => {
