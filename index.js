@@ -20,6 +20,8 @@ const token = process.env.TOKEN;
 const isHeroku = process.env.NODE_ENV === 'production';
 const client = new Discord.Client();
 
+console.log(token);
+
 client.on('guildCreate', (guild) => {
     const serverProperties = JSON.parse(
         fs.readFileSync('./serverproperties.json')
