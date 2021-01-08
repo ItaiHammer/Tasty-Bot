@@ -178,13 +178,6 @@ client.on('message', (msg) => {
             // msg.reply(`an error has accured, make sure you typed the command correctly. If you still need any more help you can use the ${prefix}help command.`);
         }
     }
-
-    if (isHeroku === true) {
-        setInterval(async () => {
-            await fetch('/');
-            console.log('fetched');
-        }, 60000);
-    }
 });
 
 client.login(token);
