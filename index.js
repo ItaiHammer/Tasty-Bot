@@ -9,7 +9,7 @@ import {
     prefixCommand,
     prefixChange,
     setAdminRole,
-    adminRole,
+    adminRole
 } from './commands.js';
 
 const token = 'Nzk2MjM5Njg3MDEwMDkxMDQ4.X_VB_g.1hfq0QZS48mGVhxCoY_GlinoDHo';
@@ -33,7 +33,7 @@ client.on('guildCreate', (guild) => {
         guildName: guild.name,
         guildID: guild.id,
         prefix: '!',
-        adminRole: adminRole,
+        adminRole: adminRole
     });
 
     fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
@@ -100,8 +100,7 @@ client.on('message', (msg) => {
             (item) => item.guildID === guild.id
         );
         const prefix = guildIndex.prefix;
-        const prefixLength =
-            prefix === null ? (prefix.length = 0) : prefix.length;
+        const prefixLength = prefix === 'BLANK' ? 0 : prefix.length;
         const botMention = '<@!796239687010091048>';
 
         //*USER VARS
@@ -116,8 +115,6 @@ client.on('message', (msg) => {
             : msg.content;
         let keyWord = msg.content.includes(' ') ? query[0] : msg.content;
 
-        console.log(query[1]);
-
         //if it has a mention
         if (msg.content.substr(0, botMention.length) === botMention) {
             switch (query[1]) {
@@ -129,7 +126,7 @@ client.on('message', (msg) => {
 
         //if it has the prefix
         if (
-            !prefix === null &&
+            !prefix === 'BLANK' &&
             !msg.content.substr(0, prefix.length) === prefix
         )
             return;
@@ -151,6 +148,11 @@ client.on('message', (msg) => {
             !msg.member.permissions.has('ADMINISTRATOR')
         )
             return;
+
+        console.log(msg.content.substr(prefixLength).split(' '));
+        console.log(prefixLength);
+        console.log(query[0]);
+        console.log(keyWord);
 
         switch (keyWord) {
             case 'channelhelp':

@@ -20,8 +20,10 @@ function prefixChange(msg, query) {
         (item) => item.guildID === msg.guild.id
     );
 
+    console.log('in prefixchange');
+
     if (query[1] === 'BLANK') {
-        guildInfo.prefix = null;
+        guildInfo.prefix = 'BLANK';
 
         msg.channel.send(
             `:white_check_mark: **Done!** set \`BLANK\` as the new prefix`
