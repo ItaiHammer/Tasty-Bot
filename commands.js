@@ -1,6 +1,7 @@
-import { help, channelHelp } from './commands/help.js';
-import { prefixCommand, prefixChange } from './commands/prefix.js';
-import { setAdminRole, adminRole } from './commands/adminrole.js';
+import {help, channelHelp} from './commands/help.js';
+import {prefixCommand, prefixChange} from './commands/prefix.js';
+import {setAdminRole, adminRole} from './commands/adminrole.js';
+import ping from './commands/ping.js';
 
 export {
     help,
@@ -8,5 +9,6 @@ export {
     prefixCommand,
     prefixChange,
     setAdminRole,
-    adminRole
+    adminRole,
+    ping
 };

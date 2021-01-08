@@ -10,7 +10,8 @@ import {
     prefixCommand,
     prefixChange,
     setAdminRole,
-    adminRole
+    adminRole,
+    ping
 } from './commands.js';
 
 const __dirname = path.resolve(path.dirname(''));
@@ -54,7 +55,8 @@ client.on('guildCreate', (guild) => {
     **-** Everyone who has Administrator permisions and or the admin role can use admin commands.
     **-** The current admin role is <@&${
         guild.roles.cache.find((role) => role.name === adminRole).id
-    }>, to change the admin role use the \`!setadminrole <Role Name>\` command.`
+    }>, to change the admin role use the \`!setadminrole <Role Name>\` command.
+    **-** For any additional help, support, or for any bug reports you can go to the bot's github page at: https://github.com/ItaiHammer/Tasty-Bot`
         )
         .setImage(
             'https://images-ext-1.discordapp.net/external/pOg4UB3nzzWxeXPz_2UMAZ9flnNtHtSIRhaSC1mFxxo/https/cdn.discordapp.com/avatars/357204752817192963/016616d966561ad13d5354acbc56e676.webp'
@@ -115,8 +117,10 @@ client.on('message', (msg) => {
         //*MSG VARS
         let query = msg.content.includes(' ')
             ? msg.content.substr(prefixLength).split(' ')
-            : msg.content;
-        let keyWord = msg.content.includes(' ') ? query[0] : msg.content;
+            : msg.content.substr(prefixLength);
+        let keyWord = msg.content.includes(' ')
+            ? query[0]
+            : msg.content.substr(prefixLength, msg.content.length);
 
         //if it has a mention
         if (msg.content.substr(0, botMention.length) === botMention) {
@@ -141,6 +145,9 @@ client.on('message', (msg) => {
             case 'adminrole':
                 adminRole(msg);
                 break;
+            case 'ping':
+                ping(msg);
+                break;
         }
 
         //if member has the admin role
@@ -151,11 +158,6 @@ client.on('message', (msg) => {
             !msg.member.permissions.has('ADMINISTRATOR')
         )
             return;
-
-        console.log(msg.content.substr(prefixLength).split(' '));
-        console.log(prefixLength);
-        console.log(query[0]);
-        console.log(keyWord);
 
         switch (keyWord) {
             case 'channelhelp':

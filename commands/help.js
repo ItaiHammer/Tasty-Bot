@@ -9,9 +9,14 @@ function help(msg, Discord, query, prefix) {
         for (let i = 0; i < commands.length; i++) {
             help.addFields({
                 name: '.',
-                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
+                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
             });
         }
+
+        help.addFields({
+            name: '.',
+            value: `If you need any additional help you can go to the bot's github page: https://github.com/ItaiHammer/Tasty-Bot`
+        });
 
         msg.author.send(help);
     } else if (query.length === 2) {
@@ -21,10 +26,15 @@ function help(msg, Discord, query, prefix) {
             if (commands[i].permissions === '@' + query[1]) {
                 help.addFields({
                     name: '.',
-                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
+                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
                 });
             }
         }
+
+        help.addFields({
+            name: '.',
+            value: `If you need any additional help you can go to the bot's github page: https://github.com/ItaiHammer/Tasty-Bot`
+        });
 
         msg.author.send(help);
     } else {
@@ -45,9 +55,14 @@ function channelHelp(msg, Discord, query, prefix) {
         for (let i = 0; i < commands.length; i++) {
             help.addFields({
                 name: '.',
-                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
+                value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
             });
         }
+
+        help.addFields({
+            name: '.',
+            value: `If you need any additional help you can go to the bot's github page: https://github.com/ItaiHammer/Tasty-Bot`
+        });
 
         msg.channel.send(help);
     } else if (query.length === 2) {
@@ -57,10 +72,15 @@ function channelHelp(msg, Discord, query, prefix) {
             if (commands[i].permissions === '@' + query[1]) {
                 help.addFields({
                     name: '.',
-                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`,
+                    value: `${commands[i].read} ${commands[i].permissions} - ${commands[i].description}`
                 });
             }
         }
+
+        help.addFields({
+            name: '.',
+            value: `If you need any additional help you can go to the bot's github page: https://github.com/ItaiHammer/Tasty-Bot`
+        });
 
         msg.channel.send(help);
     } else {
