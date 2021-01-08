@@ -45,5 +45,12 @@
         "prefix": true,
         "permissions": "@everyone",
         "description": "Checks what the admin role is"
+    },
+    {
+        "name": "ping",
+        "read": "[prefix]ping",
+        "prefix": true,
+        "permissions": "@everyone",
+        "description": "Responds with\"pong\""
     }
 ]
