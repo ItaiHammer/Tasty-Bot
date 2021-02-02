@@ -1,4 +1,5 @@
 import path from 'path';
+import fetch from 'node-fetch';
 import fs from 'fs';
 
 async function changingServerData() {
@@ -7,3 +8,5 @@ async function changingServerData() {
 
     fs.writeFileSync('./serverproperties.json', JSON.stringify(data));
 }
+
+changingServerData();

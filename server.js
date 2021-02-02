@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fetch from 'node-fetch';
 import fs from 'fs';
 import './index.js';
 
