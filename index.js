@@ -58,7 +58,7 @@ client.on('guildCreate', (guild) => {
     **-** The current prefix is \`!\`.
     **-** To change the prefix you can use \`!prefixchange <New Prefix>\`.
     **-** To view the current prefix you can use \`@Tasty Bot prefix\`.
-    **-** To make the bot instantly delete your command you can pur a **-d** in the end of it \`!bottalk Hello World! **-d**\`.
+    **-** To make the bot instantly delete your command you can pur a -d in the end of it \`!bottalk Hello World! **-d**\`.
     **-** To for the bottalk command to work properly use \`!setupwebhooks\`.
     **-** Everyone who has Administrator permisions and or the admin role can use admin commands.
     **-** The current admin role is <@&${
