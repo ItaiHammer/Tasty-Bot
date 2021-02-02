@@ -54,5 +54,45 @@
         "mention": false,
         "permissions": "@everyone",
         "description": "Responds with\"pong\""
+    },
+    {
+        "name": "time",
+        "read": "[prefix]time <Location>",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "Responds with the time"
+    },
+    {
+        "name": "react",
+        "read": "[prefix]react <msg Id> <Emoji>",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "React to a specific message with a custom reaction"
+    },
+    {
+        "name": "setupwebhooks",
+        "read": "[prefix]setupwebhooks",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "Sets up bot webhooks for the specific channel"
+    },
+    {
+        "name": "bottalk",
+        "read": "[prefix]bottalk <Text>",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "Says any message as the bot"
+    },
+    {
+        "name": "custombottalk",
+        "read": "[prefix]custombottalk -p <Profile Picture> -n <Name> -t <Text>",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "Says any message as a custom bot"
     }
 ]

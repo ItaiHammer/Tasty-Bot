@@ -4,6 +4,8 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 
+// import './clock.js';
+
 import {
     help,
     channelHelp,
@@ -11,15 +13,17 @@ import {
     prefixChange,
     setAdminRole,
     adminRole,
-    ping
+    ping,
+    time,
+    react,
+    setUpWebHooks,
+    botTalk,
+    customBotTalk
 } from './commands.js';
 
-const __dirname = path.resolve(path.dirname(''));
 dotenv.config();
 const token = process.env.TOKEN;
 const client = new Discord.Client();
-
-console.log(token);
 
 client.on('guildCreate', (guild) => {
     const serverProperties = JSON.parse(
@@ -54,6 +58,8 @@ client.on('guildCreate', (guild) => {
     **-** The current prefix is \`!\`.
     **-** To change the prefix you can use \`!prefixchange <New Prefix>\`.
     **-** To view the current prefix you can use \`@Tasty Bot prefix\`.
+    **-** To make the bot instantly delete your command you can pur a **-d** in the end of it \`!bottalk Hello World! **-d**\`.
+    **-** To for the bottalk command to work properly use \`!setupwebhooks\`.
     **-** Everyone who has Administrator permisions and or the admin role can use admin commands.
     **-** The current admin role is <@&${
         guild.roles.cache.find((role) => role.name === adminRole).id
@@ -150,6 +156,26 @@ client.on('message', (msg) => {
             case 'ping':
                 ping(msg);
                 break;
+            case 'time':
+                time(msg, query, prefix);
+                break;
+            case 'react':
+                react(msg, query);
+                break;
+            case 'setupwebhooks':
+                setUpWebHooks(msg, client);
+                break;
+            case 'bottalk':
+                botTalk(msg, client, Discord);
+                break;
+        }
+
+        for (let i = 0; i < query.length; i++) {
+            if (query[i].substr(0, 1) === '-') {
+                if (query[i] === '-d') {
+                    msg.delete();
+                }
+            }
         }
 
         //if member has the admin role
@@ -169,6 +195,9 @@ client.on('message', (msg) => {
                 prefixChange(msg, query);
             case 'setadminrole':
                 setAdminRole(query, msg, prefix);
+                break;
+            case 'custombottalk':
+                customBotTalk(msg, client, Discord);
                 break;
         }
     } catch (error) {
