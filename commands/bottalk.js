@@ -41,7 +41,7 @@ async function customBotTalk(msg, client, Discord) {
         }
 
         const tempPfp = msg.content.split(' ')[1];
-        const tempName = msg.content.split(' ')[2];
+        let tempName = msg.content.split(' ')[2];
         const tempText = msg.content.substr(getPosition(msg.content, ' ', 3));
 
         const channel = client.channels.cache.get(msg.channel.id);
