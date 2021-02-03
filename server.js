@@ -14,9 +14,8 @@ express()
     })
     .listen(port, () => console.log(`Server is running on ${port}`));
 
-if (process.env.PORT !== null) {
+if (process.env.PORT != null) {
     setInterval(async () => {
         await fetch('/');
-        console.log('fetched');
     }, 60000);
 }
