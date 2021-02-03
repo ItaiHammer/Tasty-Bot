@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 const __dirname = path.resolve(path.dirname(''));
 
 express()
-    .get('/', (req, res) => res.send('welcome!'))
+    .get('/', (req, res) => res.send('Tasty Bot!'))
     .get('/server/data', (req, res) => {
         res.sendFile(path.join(__dirname, 'serverproperties.json'));
     })
@@ -16,6 +16,7 @@ express()
 
 if (process.env.PORT != null) {
     setInterval(async () => {
-        await fetch('/');
+        await fetch('https://tatsy-bot.herokuapp.com/');
+        console.log('PING!');
     }, 60000);
 }
