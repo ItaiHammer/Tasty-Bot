@@ -146,6 +146,20 @@ client.on('message', (msg) => {
         )
             return;
 
+        if (msg.content.includes('-')) {
+            msg.content =
+                msg.content.substr(0, msg.content.lastIndexOf('-')) +
+                msg.content.substr(msg.content.lastIndexOf('-') + 2);
+        }
+
+        for (let i = 0; i < query.length; i++) {
+            if (query[i].substr(0, 1) === '-') {
+                if (query[i] === '-d') {
+                    msg.delete();
+                }
+            }
+        }
+
         switch (keyWord) {
             case 'help':
                 help(msg, Discord, query, prefix);
@@ -168,14 +182,6 @@ client.on('message', (msg) => {
             case 'bottalk':
                 botTalk(msg, client, Discord);
                 break;
-        }
-
-        for (let i = 0; i < query.length; i++) {
-            if (query[i].substr(0, 1) === '-') {
-                if (query[i] === '-d') {
-                    msg.delete();
-                }
-            }
         }
 
         //if member has the admin role

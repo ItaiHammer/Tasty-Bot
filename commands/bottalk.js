@@ -1,12 +1,6 @@
 async function botTalk(msg, client, Discord) {
     msg.content = msg.content.substring(8, msg.content.length);
 
-    if (msg.content.includes('-')) {
-        msg.content =
-            msg.content.substr(0, msg.content.lastIndexOf('-')) +
-            msg.content.substr(msg.content.lastIndexOf('-') + 2);
-    }
-
     const channel = client.channels.cache.get(msg.channel.id);
     const webhooks = await channel.fetchWebhooks();
     const webhook = webhooks.first();
@@ -42,24 +36,13 @@ async function customBotTalk(msg, client, Discord) {
     try {
         msg.content = msg.content.substring(14, msg.content.length);
 
-        if (msg.content.includes('-')) {
-            msg.content =
-                msg.content.substr(0, msg.content.lastIndexOf('-')) +
-                msg.content.substr(msg.content.lastIndexOf('-') + 2);
+        function getPosition(string, subString, index) {
+            return string.split(subString, index).join(subString).length;
         }
 
-        const tempPfp = msg.content.substring(
-            msg.content.indexOf('-p') + 3,
-            msg.content.indexOf('-n') - 1
-        );
-        const tempName = msg.content.substring(
-            msg.content.indexOf('-n') + 3,
-            msg.content.indexOf('-t') - 1
-        );
-        const tempText = msg.content.substring(
-            msg.content.indexOf('-t') + 3,
-            msg.content.length
-        );
+        const tempPfp = msg.content.split(' ')[1];
+        const tempName = msg.content.split(' ')[2];
+        const tempText = msg.content.substr(getPosition(msg.content, ' ', 3));
 
         const channel = client.channels.cache.get(msg.channel.id);
         const webhooks = await channel.fetchWebhooks();
