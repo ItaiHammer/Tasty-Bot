@@ -89,7 +89,7 @@
     },
     {
         "name": "custombottalk",
-        "read": "[prefix]custombottalk -p <Profile Picture> -n <Name> -t <Text>",
+        "read": "[prefix]custombottalk <Profile Picture> <Name> <Text>",
         "prefix": true,
         "mention": false,
         "permissions": "@everyone",
