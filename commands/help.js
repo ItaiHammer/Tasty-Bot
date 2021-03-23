@@ -48,8 +48,9 @@ function channelHelp(msg, Discord, query, prefix) {
     const commands = JSON.parse(fs.readFileSync('./commands.json'));
 
     console.log(query);
+    console.log(query.length);
 
-    if (query.length === 1) {
+    if (query.length === 1 || query.length > 2) {
         let help = new Discord.MessageEmbed().setTitle('List of Commands:');
 
         for (let i = 0; i < commands.length; i++) {
@@ -85,7 +86,7 @@ function channelHelp(msg, Discord, query, prefix) {
         msg.channel.send(help);
     } else {
         msg.channel.send(
-            `:x: **An Error has accured**, Please make sure you typed the command in this format: \`${prefix}help <Optional: Rank Name>\` and wrote the rank name correctly`
+            `:x: **An Error has accured**, Please make sure you typed the command in this format: \`${prefix}channelhelp <Optional: Rank Name>\` and wrote the rank name correctly`
         );
     }
 }

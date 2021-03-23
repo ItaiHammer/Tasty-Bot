@@ -92,7 +92,15 @@
         "read": "[prefix]custombottalk <Profile Picture> <Name> <Text>",
         "prefix": true,
         "mention": false,
-        "permissions": "@everyone",
+        "permissions": "@admin",
         "description": "Says any message as a custom bot"
+    },
+    {
+        "name": "createrole",
+        "read": "[prefix]createrole <Role Name> <Role Color> <Role Permissions>",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@admin",
+        "description": "Creates a custom role using commands"
     }
 ]

@@ -18,7 +18,8 @@ import {
     react,
     setUpWebHooks,
     botTalk,
-    customBotTalk
+    customBotTalk,
+    createRole,
 } from './commands.js';
 
 dotenv.config();
@@ -43,7 +44,7 @@ client.on('guildCreate', (guild) => {
         guildName: guild.name,
         guildID: guild.id,
         prefix: '!',
-        adminRole: adminRole
+        adminRole: adminRole,
     });
 
     fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
@@ -146,16 +147,22 @@ client.on('message', (msg) => {
         )
             return;
 
-        if (msg.content.includes('-')) {
-            msg.content =
-                msg.content.substr(0, msg.content.lastIndexOf('-')) +
-                msg.content.substr(msg.content.lastIndexOf('-') + 2);
-        }
-
         for (let i = 0; i < query.length; i++) {
             if (query[i].substr(0, 1) === '-') {
                 if (query[i] === '-d') {
                     msg.delete();
+
+                    msg.content =
+                        msg.content.substr(0, msg.content.indexOf('-')) +
+                        msg.content.substr(msg.content.indexOf('-') + 2);
+
+                    query.splice(i, 1);
+                } else if (query[i] === '-r') {
+                    msg.content =
+                        msg.content.substr(0, msg.content.indexOf('-')) +
+                        msg.content.substr(msg.content.indexOf('-') + 2);
+
+                    query.splice(i, 1);
                 }
             }
         }
@@ -204,6 +211,9 @@ client.on('message', (msg) => {
                 break;
             case 'custombottalk':
                 customBotTalk(msg, client, Discord);
+                break;
+            case 'createrole':
+                createRole(msg, query);
                 break;
         }
     } catch (error) {

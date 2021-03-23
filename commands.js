@@ -6,6 +6,7 @@ import time from './commands/time.js';
 import react from './commands/react.js';
 import setUpWebHooks from './commands/setupwebhooks.js';
 import {botTalk, customBotTalk} from './commands/bottalk.js';
+import createRole from './commands/createrole.js';
 
 export {
     help,
@@ -19,5 +20,6 @@ export {
     react,
     setUpWebHooks,
     botTalk,
-    customBotTalk
+    customBotTalk,
+    createRole
 };
