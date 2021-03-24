@@ -8,14 +8,29 @@ function setAdminRole(query, msg, prefix) {
         (item) => item.guildID === msg.guild.id
     );
 
+    let doNotRespond = false;
+
+    for (let i = 0; i < query.length; i++) {
+        if (query[i] === '-r') {
+            msg.content =
+                msg.content.substr(0, msg.content.indexOf('-')) +
+                msg.content.substr(msg.content.indexOf('-') + 2);
+
+            query.splice(i, 1);
+            doNotRespond = true;
+        }
+    }
+
     let role = query[1];
     let errorMessage = `:x: **An Error has accured**, Please make sure you typed the command in this format: \`${prefix}setadminrole <Role Name>\` and wrote the role name correctly`;
 
     try {
         if (role === guildInfo.adminRole) {
-            msg.channel.send(
-                `:grey_question: \`${role}\` is already the admin role`
-            );
+            if (!doNotRespond) {
+                msg.channel.send(
+                    `:grey_question: \`${role}\` is already the admin role`
+                );
+            }
         } else {
             if (msg.guild.roles.cache.some((r) => r.name === role)) {
                 guildInfo.adminRole = role;
@@ -24,16 +39,22 @@ function setAdminRole(query, msg, prefix) {
                     JSON.stringify(serverProperties)
                 );
 
-                msg.channel.send(
-                    `:white_check_mark: **Done!** set \`${role}\` as admin role`
-                );
+                if (!doNotRespond) {
+                    msg.channel.send(
+                        `:white_check_mark: **Done!** set \`${role}\` as admin role`
+                    );
+                }
             } else {
-                msg.channel.send(errorMessage);
+                if (!doNotRespond) {
+                    msg.channel.send(errorMessage);
+                }
             }
         }
     } catch (err) {
         console.log(err);
-        msg.channel.send(errorMessage);
+        if (!doNotRespond) {
+            msg.channel.send(errorMessage);
+        }
     }
 }
 
@@ -45,7 +66,22 @@ function adminRole(msg) {
         (item) => item.guildID === msg.guild.id
     );
 
-    msg.reply(`the admin role is \`${guildInfo.adminRole}\``);
+    let doNotRespond = false;
+
+    for (let i = 0; i < query.length; i++) {
+        if (query[i] === '-r') {
+            msg.content =
+                msg.content.substr(0, msg.content.indexOf('-')) +
+                msg.content.substr(msg.content.indexOf('-') + 2);
+
+            query.splice(i, 1);
+            doNotRespond = true;
+        }
+    }
+
+    if (!doNotRespond) {
+        msg.reply(`the admin role is \`${guildInfo.adminRole}\``);
+    }
 }
 
 export { setAdminRole, adminRole };

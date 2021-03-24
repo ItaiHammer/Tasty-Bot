@@ -59,7 +59,9 @@ client.on('guildCreate', (guild) => {
     **-** The current prefix is \`!\`.
     **-** To change the prefix you can use \`!prefixchange <New Prefix>\`.
     **-** To view the current prefix you can use \`@Tasty Bot prefix\`.
-    **-** To make the bot instantly delete your command you can pur a -d in the end of it \`!bottalk Hello World! -d\`.
+    **-** To make the bot instantly delete your command you can pur a -d in the end of your command \`!bottalk Hello World! -d\`.
+    **-** To make the bot delete it's own response to your command put -d in the end of your command \`!bottalk Hello World! -r\`.
+    **-** You can use shortcuts like \`$/s\` to insert a space in places you can't, \`$/tag\` to insert your full name and tag, and \`$/numtag\` to insert your tag into a command.
     **-** To for the bottalk command to work properly use \`!setupwebhooks\`.
     **-** Everyone who has Administrator permisions and or the admin role can use admin commands.
     **-** The current admin role is <@&${
@@ -157,12 +159,43 @@ client.on('message', (msg) => {
                         msg.content.substr(msg.content.indexOf('-') + 2);
 
                     query.splice(i, 1);
-                } else if (query[i] === '-r') {
-                    msg.content =
-                        msg.content.substr(0, msg.content.indexOf('-')) +
-                        msg.content.substr(msg.content.indexOf('-') + 2);
+                }
+            }
+        }
 
-                    query.splice(i, 1);
+        //special syntax
+        if (query.includes('$/')) {
+            console.log(query);
+            while (query.includes('$/')) {
+                query = query.replace('$/s');
+            }
+        }
+
+        console.log();
+
+        for (let i = 0; i < query.length; i++) {
+            if (query[i].includes('$/')) {
+                while (query[i].includes('$/s')) {
+                    query[i] = query[i].replace('$/s', ' ');
+                    msg.content = msg.content.replace('$/s', ' ');
+                }
+                while (query[i].includes('$/lf')) {
+                    query[i] = query[i].replace('$/lf', '( ͡° ͜ʖ ͡°)');
+                    msg.content = msg.content.replace('$/lf', '( ͡° ͜ʖ ͡°)');
+                }
+                while (query[i].includes('$/tag')) {
+                    query[i] = query[i].replace('$/tag', msg.author.tag);
+                    msg.content = msg.content.replace('$/tag', msg.author.tag);
+                }
+                while (query[i].includes('$/numtag')) {
+                    query[i] = query[i].replace(
+                        '$/numtag',
+                        msg.author.tag.substr(msg.author.tag.length - 5)
+                    );
+                    msg.content = msg.content.replace(
+                        '$/numtag',
+                        msg.author.tag.substr(msg.author.tag.length - 5)
+                    );
                 }
             }
         }
@@ -172,22 +205,22 @@ client.on('message', (msg) => {
                 help(msg, Discord, query, prefix);
                 break;
             case 'adminrole':
-                adminRole(msg);
+                adminRole(msg, query);
                 break;
             case 'ping':
-                ping(msg);
+                ping(msg, query);
                 break;
             case 'time':
                 time(msg, query, prefix);
                 break;
             case 'react':
-                react(msg, query);
+                react(msg);
                 break;
             case 'setupwebhooks':
-                setUpWebHooks(msg, client);
+                setUpWebHooks(msg, client, query);
                 break;
             case 'bottalk':
-                botTalk(msg, client, Discord);
+                botTalk(msg, client, Discord, query);
                 break;
         }
 
@@ -207,10 +240,10 @@ client.on('message', (msg) => {
             case 'prefixchange':
                 prefixChange(msg, query);
             case 'setadminrole':
-                setAdminRole(query, msg, prefix);
+                setAdminRole(query, msg, prefix, query);
                 break;
             case 'custombottalk':
-                customBotTalk(msg, client, Discord);
+                customBotTalk(msg, client, Discord, query);
                 break;
             case 'createrole':
                 createRole(msg, query);
