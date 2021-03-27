@@ -20,6 +20,9 @@ import {
     botTalk,
     customBotTalk,
     createRole,
+    deleteRole,
+    addRole,
+    tastyrun,
 } from './commands.js';
 
 dotenv.config();
@@ -129,7 +132,7 @@ client.on('message', (msg) => {
         let query = msg.content.includes(' ')
             ? msg.content.substr(prefixLength).split(' ')
             : msg.content.substr(prefixLength);
-        let keyWord = msg.content.includes(' ')
+        let word = msg.content.includes(' ')
             ? query[0]
             : msg.content.substr(prefixLength, msg.content.length);
 
@@ -163,36 +166,21 @@ client.on('message', (msg) => {
             }
         }
 
-        //special syntax
-        if (query.includes('$/')) {
-            console.log(query);
-            while (query.includes('$/')) {
-                query = query.replace('$/s');
-            }
-        }
-
         console.log();
 
         for (let i = 0; i < query.length; i++) {
             if (query[i].includes('$/')) {
                 while (query[i].includes('$/s')) {
                     query[i] = query[i].replace('$/s', ' ');
-                    msg.content = msg.content.replace('$/s', ' ');
                 }
                 while (query[i].includes('$/lf')) {
                     query[i] = query[i].replace('$/lf', '( ͡° ͜ʖ ͡°)');
-                    msg.content = msg.content.replace('$/lf', '( ͡° ͜ʖ ͡°)');
                 }
                 while (query[i].includes('$/tag')) {
                     query[i] = query[i].replace('$/tag', msg.author.tag);
-                    msg.content = msg.content.replace('$/tag', msg.author.tag);
                 }
                 while (query[i].includes('$/numtag')) {
                     query[i] = query[i].replace(
-                        '$/numtag',
-                        msg.author.tag.substr(msg.author.tag.length - 5)
-                    );
-                    msg.content = msg.content.replace(
                         '$/numtag',
                         msg.author.tag.substr(msg.author.tag.length - 5)
                     );
@@ -200,55 +188,68 @@ client.on('message', (msg) => {
             }
         }
 
-        switch (keyWord) {
-            case 'help':
-                help(msg, Discord, query, prefix);
-                break;
-            case 'adminrole':
-                adminRole(msg, query);
-                break;
-            case 'ping':
-                ping(msg, query);
-                break;
-            case 'time':
-                time(msg, query, prefix);
-                break;
-            case 'react':
-                react(msg);
-                break;
-            case 'setupwebhooks':
-                setUpWebHooks(msg, client, query);
-                break;
-            case 'bottalk':
-                botTalk(msg, client, Discord, query);
-                break;
-        }
+        function manageCommands(keyWord, setQuery) {
+            switch (keyWord) {
+                case 'help':
+                    help(msg, Discord, setQuery, prefix);
+                    break;
+                case 'adminrole':
+                    adminRole(msg, setQuery, msg.guild.id);
+                    break;
+                case 'ping':
+                    ping(msg, setQuery);
+                    break;
+                case 'time':
+                    time(msg, setQuery, prefix);
+                    break;
+                case 'react':
+                    react(msg);
+                    break;
+                case 'setupwebhooks':
+                    setUpWebHooks(msg, client, setQuery);
+                    break;
+                case 'bottalk':
+                    botTalk(msg, client, Discord, setQuery);
+                    break;
+                case 'tastyrun':
+                    tastyrun(msg, manageCommands);
+                    break;
+            }
 
-        //if member has the admin role
-        if (
-            !msg.member.roles.cache.some(
-                (r) => r.name === guildIndex.adminRole
-            ) &&
-            !msg.member.permissions.has('ADMINISTRATOR')
-        )
-            return;
+            //if member has the admin role
+            if (
+                !msg.member.roles.cache.some(
+                    (r) => r.name === guildIndex.adminRole
+                ) &&
+                !msg.member.permissions.has('ADMINISTRATOR')
+            )
+                return;
 
-        switch (keyWord) {
-            case 'channelhelp':
-                channelHelp(msg, Discord, query, prefix);
-                break;
-            case 'prefixchange':
-                prefixChange(msg, query);
-            case 'setadminrole':
-                setAdminRole(query, msg, prefix, query);
-                break;
-            case 'custombottalk':
-                customBotTalk(msg, client, Discord, query);
-                break;
-            case 'createrole':
-                createRole(msg, query);
-                break;
+            switch (keyWord) {
+                case 'channelhelp':
+                    channelHelp(msg, Discord, setQuery, prefix);
+                    break;
+                case 'prefixchange':
+                    prefixChange(msg, setQuery);
+                case 'setadminrole':
+                    setAdminRole(setQuery, msg, prefix, msg.guild.id);
+                    break;
+                case 'custombottalk':
+                    customBotTalk(msg, client, Discord, setQuery);
+                    break;
+                case 'createrole':
+                    createRole(msg, setQuery, msg.guild.id);
+                    break;
+                case 'deleterole':
+                    deleteRole(msg, setQuery);
+                    break;
+                // case 'addrole':
+                //     console.log(msg.content);
+                //     addRole(msg, setQuery, client);
+                //     break;
+            }
         }
+        manageCommands(word, query);
     } catch (error) {
         if (msg.author.bot === false) {
             console.log(error);

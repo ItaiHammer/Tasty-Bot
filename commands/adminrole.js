@@ -1,12 +1,10 @@
 import fs from 'fs';
 
-function setAdminRole(query, msg, prefix) {
+function setAdminRole(query, msg, prefix, guildID) {
     const serverProperties = JSON.parse(
         fs.readFileSync('./serverproperties.json')
     );
-    const guildInfo = serverProperties.find(
-        (item) => item.guildID === msg.guild.id
-    );
+    const guildInfo = serverProperties.find((item) => item.guildID === guildID);
 
     let doNotRespond = false;
 
@@ -58,13 +56,11 @@ function setAdminRole(query, msg, prefix) {
     }
 }
 
-function adminRole(msg) {
+function adminRole(msg, query, guildID) {
     const serverProperties = JSON.parse(
         fs.readFileSync('serverproperties.json')
     );
-    const guildInfo = serverProperties.find(
-        (item) => item.guildID === msg.guild.id
-    );
+    const guildInfo = serverProperties.find((item) => item.guildID === guildID);
 
     let doNotRespond = false;
 

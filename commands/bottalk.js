@@ -41,7 +41,7 @@ async function botTalk(msg, client, Discord, query) {
         embed.setTitle('Error');
         embed.setColor(msg.member.displayColor);
         embed.setDescription(
-            `Make sure the you typed the command in this format: [prefix]bottalk <text>, if it still doesn't work make sure the bot set webhooks in the channel by using the command: [prefix]setwebhooks`
+            `Make sure the you typed the command in this format: [prefix]bottalk <text>, if it still doesn't work make sure the bot set webhooks in the channel by using the command: [prefix]setupwebhooks`
         );
 
         msg.reply(embed);
@@ -57,13 +57,15 @@ async function customBotTalk(msg, client, Discord, query) {
             return string.split(subString, index).join(subString).length;
         }
 
-        const tempPfp = msg.content.split(' ')[1];
-        let tempName = msg.content.split(' ')[2].replace(/,/g, ' ');
+        const tempPfp = query[1];
+        let tempName = query[2];
         const tempText = msg.content.substr(getPosition(msg.content, ' ', 3));
 
         const channel = client.channels.cache.get(msg.channel.id);
         const webhooks = await channel.fetchWebhooks();
         const webhook = webhooks.first();
+
+        console.log(query);
 
         let doNotRespond = false;
 
@@ -95,7 +97,7 @@ async function customBotTalk(msg, client, Discord, query) {
         embed.setTitle('Error');
         embed.setColor(msg.member.displayColor);
         embed.setDescription(
-            `Make sure the image link you provided is valid that you got the spacing right and the you put it in this format: [prefix]custombottalk -p <link to image> -n <name> -t <text>, if it still doesn't work make sure the bot set webhooks in the channel by using the command: [prefix]setwebhooks`
+            `Make sure the image link you provided is valid that you got the spacing right and the you put it in this format: [prefix]custombottalk -p <link to image> -n <name> -t <text>, if it still doesn't work make sure the bot set webhooks in the channel by using the command: [prefix]setupwebhooks`
         );
 
         msg.reply(embed);

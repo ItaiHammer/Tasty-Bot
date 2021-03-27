@@ -1,4 +1,4 @@
-export default function createRole(msg, query) {
+function createRole(msg, query) {
     try {
         let name =
             query[1] == null || query[1] === 'null' ? 'New Role' : query[1];
@@ -10,6 +10,7 @@ export default function createRole(msg, query) {
                 : query[3]
                       .substr(1, query[3].length - 2)
                       .replace(/'/g, '')
+                      .toUpperCase()
                       .split(',');
 
         let doNotRespond = false;
@@ -45,3 +46,20 @@ export default function createRole(msg, query) {
         console.log(err);
     }
 }
+
+function deleteRole(msg, query) {
+    const role = query[1];
+
+    msg.guild.roles.find((role) => role.name === role).delete();
+}
+
+function addRole(msg, query, client) {
+    const user = client.users.cache.find(
+        (user) => user.id === query[2].substring('3', query[2].length - 1)
+    );
+    const role = msg.guild.roles.cache.find((r) => r.name === query[1]);
+
+    console.log(user);
+}
+
+export { createRole, deleteRole, addRole };

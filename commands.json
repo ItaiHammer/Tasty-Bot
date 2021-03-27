@@ -102,5 +102,13 @@
         "mention": false,
         "permissions": "@admin",
         "description": "Creates a custom role using commands"
+    },
+    {
+        "name": "tastyrun",
+        "read": "[prefix]tastyrun ```\ncommand(parameter1, parameter2)\n```",
+        "prefix": true,
+        "mention": false,
+        "permissions": "@everyone",
+        "description": "Lets you run any tasty bot command in code format using scripts"
     }
 ]

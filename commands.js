@@ -1,12 +1,13 @@
-import {help, channelHelp} from './commands/help.js';
-import {prefixCommand, prefixChange} from './commands/prefix.js';
-import {setAdminRole, adminRole} from './commands/adminrole.js';
+import { help, channelHelp } from './commands/help.js';
+import { prefixCommand, prefixChange } from './commands/prefix.js';
+import { setAdminRole, adminRole } from './commands/adminrole.js';
 import ping from './commands/ping.js';
 import time from './commands/time.js';
 import react from './commands/react.js';
 import setUpWebHooks from './commands/setupwebhooks.js';
-import {botTalk, customBotTalk} from './commands/bottalk.js';
-import createRole from './commands/createrole.js';
+import { botTalk, customBotTalk } from './commands/bottalk.js';
+import { createRole, deleteRole, addRole } from './commands/roles.js';
+import tastyrun from './commands/tastyrun.js';
 
 export {
     help,
@@ -21,5 +22,8 @@ export {
     setUpWebHooks,
     botTalk,
     customBotTalk,
-    createRole
+    createRole,
+    deleteRole,
+    addRole,
+    tastyrun,
 };
