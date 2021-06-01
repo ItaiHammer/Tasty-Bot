@@ -65,8 +65,6 @@ async function customBotTalk(msg, client, Discord, query) {
         const webhooks = await channel.fetchWebhooks();
         const webhook = webhooks.first();
 
-        console.log(query);
-
         let doNotRespond = false;
 
         for (let i = 0; i < query.length; i++) {

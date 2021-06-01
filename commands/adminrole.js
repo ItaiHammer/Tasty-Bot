@@ -1,10 +1,7 @@
-import fs from 'fs';
+import Guild from '../models/Guild.js';
 
-function setAdminRole(query, msg, prefix, guildID) {
-    const serverProperties = JSON.parse(
-        fs.readFileSync('./serverproperties.json')
-    );
-    const guildInfo = serverProperties.find((item) => item.guildID === guildID);
+async function setAdminRole(query, msg, prefix, guildID) {
+    const guildInfo = await Guild.findOne({ guildID });
 
     let doNotRespond = false;
 
@@ -32,10 +29,7 @@ function setAdminRole(query, msg, prefix, guildID) {
         } else {
             if (msg.guild.roles.cache.some((r) => r.name === role)) {
                 guildInfo.adminRole = role;
-                fs.writeFileSync(
-                    'serverproperties.json',
-                    JSON.stringify(serverProperties)
-                );
+                guildInfo.save();
 
                 if (!doNotRespond) {
                     msg.channel.send(
@@ -44,23 +38,20 @@ function setAdminRole(query, msg, prefix, guildID) {
                 }
             } else {
                 if (!doNotRespond) {
-                    msg.channel.send(errorMessage);
+                    // msg.channel.send(errorMessage);
                 }
             }
         }
     } catch (err) {
         console.log(err);
         if (!doNotRespond) {
-            msg.channel.send(errorMessage);
+            // msg.channel.send(errorMessage);
         }
     }
 }
 
-function adminRole(msg, query, guildID) {
-    const serverProperties = JSON.parse(
-        fs.readFileSync('serverproperties.json')
-    );
-    const guildInfo = serverProperties.find((item) => item.guildID === guildID);
+async function adminRole(msg, query, guildID) {
+    const guildInfo = await Guild.findOne({ guildID });
 
     let doNotRespond = false;
 

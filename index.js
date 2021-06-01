@@ -2,10 +2,11 @@ import Discord from 'discord.js';
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
-import fetch from 'node-fetch';
+import mongoose from 'mongoose';
 
-// import './clock.js';
-
+//files
+import Guild from './models/Guild.js';
+import { createGuild, deleteGuild, changeGuildVar } from './dataBase/Guild.js';
 import {
     help,
     channelHelp,
@@ -30,9 +31,6 @@ const token = process.env.TOKEN;
 const client = new Discord.Client();
 
 client.on('guildCreate', (guild) => {
-    const serverProperties = JSON.parse(
-        fs.readFileSync('./serverproperties.json')
-    );
     let adminRole;
     try {
         adminRole = guild.roles.cache.find((role) =>
@@ -43,14 +41,7 @@ client.on('guildCreate', (guild) => {
         adminRole = 'admin';
     }
 
-    serverProperties.push({
-        guildName: guild.name,
-        guildID: guild.id,
-        prefix: '!',
-        adminRole: adminRole,
-    });
-
-    fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
+    createGuild(guild.id, guild.name, '!', adminRole);
 
     let defaultChannel;
     const joinMessage = new Discord.MessageEmbed()
@@ -89,36 +80,21 @@ client.on('guildCreate', (guild) => {
 });
 
 client.on('guildDelete', (guild) => {
-    const serverProperties = JSON.parse(
-        fs.readFileSync('./serverproperties.json')
-    );
-    let index;
-    const guildIndex = serverProperties.findIndex(
-        (item) => item.guildID === guild.id
-    );
-
-    serverProperties.splice(guildIndex, 1);
-
-    fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
+    deleteGuild(guild.id);
 });
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', (msg) => {
+client.on('message', async (msg) => {
     if (msg.channel.type === 'dm') return;
     if (msg.author.bot === true) return;
 
     try {
         const guild = msg.guild;
-        const serverProperties = JSON.parse(
-            fs.readFileSync('./serverproperties.json')
-        );
-        const guildIndex = serverProperties.find(
-            (item) => item.guildID === guild.id
-        );
-        const prefix = guildIndex.prefix;
+        const serverProperties = await Guild.findOne({ guildID: guild.id });
+        const prefix = serverProperties.prefix;
         const prefixLength = prefix === 'BLANK' ? 0 : prefix.length;
         const botMention = '<@!796239687010091048>';
 
@@ -165,8 +141,6 @@ client.on('message', (msg) => {
                 }
             }
         }
-
-        console.log();
 
         for (let i = 0; i < query.length; i++) {
             if (query[i].includes('$/')) {
@@ -219,7 +193,7 @@ client.on('message', (msg) => {
             //if member has the admin role
             if (
                 !msg.member.roles.cache.some(
-                    (r) => r.name === guildIndex.adminRole
+                    (r) => r.name === serverProperties.adminRole
                 ) &&
                 !msg.member.permissions.has('ADMINISTRATOR')
             )

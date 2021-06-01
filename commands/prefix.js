@@ -1,12 +1,7 @@
-import fs from 'fs';
+import Guild from '../models/Guild.js';
 
-function prefixCommand(msg) {
-    const serverProperties = JSON.parse(
-        fs.readFileSync('./serverproperties.json')
-    );
-    const guildInfo = serverProperties.find(
-        (item) => item.guildID === msg.guild.id
-    );
+async function prefixCommand(msg) {
+    const guildInfo = await Guild.findOne({ guildID: msg.guild.id });
     const currentPrefix = guildInfo.prefix === '' ? 'BLANK' : guildInfo.prefix;
 
     let doNotRespond = false;
@@ -27,13 +22,9 @@ function prefixCommand(msg) {
     }
 }
 
-function prefixChange(msg, query) {
-    const serverProperties = JSON.parse(
-        fs.readFileSync('./serverproperties.json')
-    );
-    const guildInfo = serverProperties.find(
-        (item) => item.guildID === msg.guild.id
-    );
+async function prefixChange(msg, query) {
+    let doNotRespond = false;
+    const guildInfo = await Guild.findOne({ guildID: msg.guild.id });
 
     for (let i = 0; i < query.length; i++) {
         if (query[i] === '-r') {
@@ -64,7 +55,7 @@ function prefixChange(msg, query) {
         }
     }
 
-    fs.writeFileSync('serverproperties.json', JSON.stringify(serverProperties));
+    guildInfo.save();
 }
 
 export { prefixCommand, prefixChange };
